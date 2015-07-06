@@ -40,8 +40,8 @@ def dump(node, annotate_fields=True, include_attributes=False, indent='  '):
     """
     Return a formatted dump of the tree in *node*.  This is mainly useful for
     debugging purposes.  The returned string will show the names and the values
-    for fields.  This makes the code impossible to evaluate, so if evaluation is
-    wanted *annotate_fields* must be set to False.  Attributes such as line
+    for fields.  This makes the code impossible to evaluate, so if evaluation
+    is wanted *annotate_fields* must be set to False.  Attributes such as line
     numbers and column offsets are not dumped by default.  If this is wanted,
     *include_attributes* can be set to True.
     """
