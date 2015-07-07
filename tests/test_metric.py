@@ -10,4 +10,11 @@ class BasicTests(unittest.TestCase):
         filename = __file__.replace('.pyc', '.py')
         metric.parse_words(open(filename))
         # print(metric.words)
-        assert metric.words['TypeZeroMetric'] == 3
+        assert metric.words['zero'] == 3
+        metric.measure()
+        # print(metric.vocab_words)
+        # print(metric.results)
+        # Update the test?
+        assert metric.results['num_of_unique_vocab_words'] == 30, \
+            "Actual num of unique vocab words: %d" % \
+            metric.results['num_of_unique_vocab_words']
