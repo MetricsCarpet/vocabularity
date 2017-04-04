@@ -1,6 +1,5 @@
-'''
- vocabularity
- ------------
+"""
+Vocabularity is a measure of software being readable by a human.
 
 Implements a software quality metric that allows to inspect the vocabulary
 of the the source code. E.g. it helps answering how many English words vs.
@@ -28,7 +27,7 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-'''
+"""
 import re
 import enchant
 
@@ -36,11 +35,10 @@ from vocabularity.version import __version__ as vocabularity_version
 
 
 class VocabularityMetricBase(object):
-    '''
-    This class is inherited by all types of metrics.
-    '''
+    """The base class inherited by all types of vocab metrics."""
 
     def __init__(self):
+        """Construct a metric."""
         self.words = dict()
         self.results = {
             'metrics_version': vocabularity_version,
@@ -48,10 +46,10 @@ class VocabularityMetricBase(object):
         self._normalized_words = list()
 
     def parse_words(self, filestream):
-        '''Parse all words in the file. Compute a histogram.'''
+        """Parse all words in the file. Compute a histogram."""
 
     def measure(self):
-        '''Find value of `vocabulary` metric'''
+        """Find value of `vocabulary` metric."""
         self.results['num_of_unique_words'] = len(self.words)
         self.results['total_num_of_words'] = sum([count for count
                                                  in self.words.values()])
@@ -64,6 +62,7 @@ class VocabularityMetricBase(object):
     _NUMBERS = re.compile(r'^[0-9]+?$')
 
     def normalize_word(self, word):
+        """Normalize words in code to words in natural language."""
         if len(self._normalized_words) == 0:
             word = self._convert_camel_case(word)
             self._normalized_words = re.split(self._SEP, word)
@@ -77,7 +76,9 @@ class VocabularityMetricBase(object):
 
 
 class TypeZeroMetric(VocabularityMetricBase):
-    '''
+    """
+    Type0 metric is a context free metric.
+
     TYPE0 vocabularity metric is a metric that does not take into account
     any source code parsing. This metric cannot even decide between if a
     line of the source code is a part of the comment or not. For some languages
@@ -85,7 +86,7 @@ class TypeZeroMetric(VocabularityMetricBase):
     grammar parsing step. Even if one wants to do a simple Line Of Code
     (LOC) metrics. E.g. total number of lines is type0 but number of comment
     lines versus number of code lines is type1.
-    '''
+    """
 
     _SPLIT_RE = re.compile('\W+')
 
@@ -105,7 +106,7 @@ class TypeZeroMetric(VocabularityMetricBase):
     _DICT = enchant.Dict("en_US")
 
     def is_vocab(self, word):
-        '''Return False if the word is not found in spelling'''
+        """Return False if the word is not found in spelling."""
         x = self._DICT.check(word)
         return x
 
